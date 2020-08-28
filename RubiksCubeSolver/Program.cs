@@ -8,8 +8,17 @@ namespace RubiksCubeSolver {
 
 
 			cube.draw();
+			Console.WriteLine();
+			
+			cube = cube.applyRotation(Rotation.R);
 
+			cube.draw();
+			Console.WriteLine();
 
+			cube = cube.applyRotation(Rotation.Rr);
+
+			cube.draw();
+			Console.WriteLine();
 
 		}
 	}

@@ -19,9 +19,13 @@ namespace RubiksCubeSolver {
 				}
 			}
 			set {
+				List<PieceFace> newFaces = new List<PieceFace>();
 				foreach (PieceFace pieceFace in faces) {
-					pieceFace.x = value;
+					PieceFace face = pieceFace;
+					face.x = value;
+					newFaces.Add(face);
 				}
+				faces = newFaces;
 			}
 		}
 
@@ -34,9 +38,13 @@ namespace RubiksCubeSolver {
 				}
 			}
 			set {
+				List<PieceFace> newFaces = new List<PieceFace>();
 				foreach (PieceFace pieceFace in faces) {
-					pieceFace.y = value;
+					PieceFace face = pieceFace;
+					face.y = value;
+					newFaces.Add(face);
 				}
+				faces = newFaces;
 			}
 		}
 
@@ -49,9 +57,13 @@ namespace RubiksCubeSolver {
 				}
 			}
 			set {
+				List<PieceFace> newFaces = new List<PieceFace>();
 				foreach (PieceFace pieceFace in faces) {
-					pieceFace.z = value;
+					PieceFace face = pieceFace;
+					face.z = value;
+					newFaces.Add(face);
 				}
+				faces = newFaces;
 			}
 		}
 

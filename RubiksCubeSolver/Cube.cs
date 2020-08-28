@@ -6,11 +6,13 @@ using System.Net;
 using System.Text;
 
 namespace RubiksCubeSolver {
-	class Cube {
+	
+	public class Cube {
 
 
 		public IEnumerable<Piece> pieces { get; set; } = new List<Piece>();
 
+		public List<Rotation> appliedRotations { get; set; } = new List<Rotation>();
 		
 		public Cube() {
 			initCube();
@@ -26,77 +28,59 @@ namespace RubiksCubeSolver {
 
 						//Edges and corners
 						if (z == 0) {
-							piece.faces = piece.faces.Append(new PieceFace{direction = Direction.Forwards});
+							piece.faces = piece.faces.Append(
+								new PieceFace {
+									direction = Direction.Forwards,
+									color = ConsoleColor.Blue
+
+								}
+							);
 						}
 
 						if (z == 2) {
-							piece.faces = piece.faces.Append(new PieceFace{direction = Direction.Backwards});
+							piece.faces = piece.faces.Append(
+								new PieceFace {
+									direction = Direction.Backwards,
+									color = ConsoleColor.Green
+								}
+							);
 						}
 
 						if (x == 0) {
-							piece.faces = piece.faces.Append(new PieceFace{direction = Direction.Left});
+							piece.faces = piece.faces.Append(
+								new PieceFace {
+									direction = Direction.Left,
+									color = ConsoleColor.Yellow
+								}
+							);
 						}
 
 						if (x == 2) {
-							piece.faces = piece.faces.Append(new PieceFace{direction = Direction.Right});
+							piece.faces = piece.faces.Append(
+								new PieceFace {
+									direction = Direction.Right,
+									color = ConsoleColor.White
+								}
+							);
 						}
 
 						if (y == 0) {
-							piece.faces = piece.faces.Append(new PieceFace{direction = Direction.Down});
+							piece.faces = piece.faces.Append(
+								new PieceFace {
+									direction = Direction.Down,
+									color = ConsoleColor.Magenta
+								}
+							);
 						}
 
 						if (y == 2) {
-							piece.faces = piece.faces.Append(new PieceFace{direction = Direction.Up});
+							piece.faces = piece.faces.Append(
+								new PieceFace {
+									direction = Direction.Up,
+									color = ConsoleColor.Red
+								}
+							);
 						}
-
-						//Centers
-						if (x == 1 && y == 1 && z == 0) {
-							piece.faces = piece.faces.Append(new PieceFace{direction = Direction.Forwards});
-						}
-
-						if (x == 1 && y == 2 && z == 1) {
-							piece.faces = piece.faces.Append(new PieceFace{direction = Direction.Up});
-						}
-
-						if (x == 1 && y == 1 && z == 2) {
-							piece.faces = piece.faces.Append(new PieceFace{direction = Direction.Backwards});
-						}
-
-						if (x == 1 && y == 0 && z == 1) {
-							piece.faces = piece.faces.Append(new PieceFace{direction = Direction.Down});
-						}
-
-						if (x == 0 && y == 1 && z == 1) {
-							piece.faces = piece.faces.Append(new PieceFace{direction = Direction.Left});
-						}
-
-						if (x == 2 && y == 1 && z == 1) {
-							piece.faces = piece.faces.Append(new PieceFace{direction = Direction.Right});
-						}
-
-						foreach (PieceFace pieceFace in piece.faces) {
-							switch (pieceFace.direction) {
-								case Direction.Up:
-									pieceFace.color = ConsoleColor.Red;
-									break;
-								case Direction.Down:
-									pieceFace.color = ConsoleColor.Magenta;
-									break;
-								case Direction.Left:
-									pieceFace.color = ConsoleColor.Yellow;
-									break;
-								case Direction.Right:
-									pieceFace.color = ConsoleColor.White;
-									break;
-								case Direction.Forwards:
-									pieceFace.color = ConsoleColor.Blue;
-									break;
-								case Direction.Backwards:
-									pieceFace.color = ConsoleColor.Green;
-									break;
-							}
-						}
-
 						
 						piece.x = x;
 						piece.y = y;
@@ -115,7 +99,7 @@ namespace RubiksCubeSolver {
 
 
 
-		private IEnumerable<Piece> getPieceAt(int? x = null, int? y = null, int? z = null) {
+		public IEnumerable<Piece> getPiecesAt(int? x = null, int? y = null, int? z = null) {
 			IEnumerable<Piece> pieces = this.pieces;
 			if (x != null) pieces = pieces.Where(p => p.x == x);
 			if (y != null) pieces = pieces.Where(p => p.y == y);
@@ -133,7 +117,7 @@ namespace RubiksCubeSolver {
 
 
 
-		private IEnumerable<Piece> getCubeFace(Direction direction) {
+		public IEnumerable<Piece> getCubeFace(Direction direction) {
 			return pieces.Where(p => p.faces.Any(f => f.direction == direction));
 		}
 
@@ -208,7 +192,14 @@ namespace RubiksCubeSolver {
 		}
 
 
-
+		public Cube clone() {
+			Cube newCube = new Cube();
+			foreach (Rotation rotation in appliedRotations) {
+				newCube = newCube.applyRotation(rotation);
+			}
+			return newCube;
+		}
+		
 	}
 
 
