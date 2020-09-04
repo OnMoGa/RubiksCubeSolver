@@ -24,11 +24,14 @@ namespace RubiksCubeSolver {
 			for (int z = 0; z < 3; z++) {
 				for (int y = 0; y < 3; y++) {
 					for (int x = 0; x < 3; x++) {
-						Piece piece = new Piece();
+
+                        if(x == 1 && y == 1 && z == 1) continue;
+                        
+                        var faces = new List<PieceFace>();
 
 						//Edges and corners
 						if (z == 0) {
-							piece.faces = piece.faces.Append(
+							faces.Add(
 								new PieceFace {
 									direction = Direction.Forwards,
 									color = ConsoleColor.Blue
@@ -38,7 +41,7 @@ namespace RubiksCubeSolver {
 						}
 
 						if (z == 2) {
-							piece.faces = piece.faces.Append(
+							faces.Add(
 								new PieceFace {
 									direction = Direction.Backwards,
 									color = ConsoleColor.Green
@@ -47,7 +50,7 @@ namespace RubiksCubeSolver {
 						}
 
 						if (x == 0) {
-							piece.faces = piece.faces.Append(
+							faces.Add(
 								new PieceFace {
 									direction = Direction.Left,
 									color = ConsoleColor.Yellow
@@ -56,7 +59,7 @@ namespace RubiksCubeSolver {
 						}
 
 						if (x == 2) {
-							piece.faces = piece.faces.Append(
+							faces.Add(
 								new PieceFace {
 									direction = Direction.Right,
 									color = ConsoleColor.White
@@ -65,7 +68,7 @@ namespace RubiksCubeSolver {
 						}
 
 						if (y == 0) {
-							piece.faces = piece.faces.Append(
+							faces.Add(
 								new PieceFace {
 									direction = Direction.Down,
 									color = ConsoleColor.Magenta
@@ -74,7 +77,7 @@ namespace RubiksCubeSolver {
 						}
 
 						if (y == 2) {
-							piece.faces = piece.faces.Append(
+							faces.Add(
 								new PieceFace {
 									direction = Direction.Up,
 									color = ConsoleColor.Red
@@ -82,19 +85,17 @@ namespace RubiksCubeSolver {
 							);
 						}
 						
-						piece.x = x;
-						piece.y = y;
-						piece.z = z;
-
-						pieces = pieces.Append(piece);
+						pieces = pieces.Append(
+                            new Piece
+                            {
+								faces = faces,
+								x = x,
+								y = y,
+								z = z
+                            });
 					}
 				}
 			}
-
-
-
-
-
 		}
 
 
